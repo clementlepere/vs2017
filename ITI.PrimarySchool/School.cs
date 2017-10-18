@@ -43,8 +43,9 @@ namespace ITI.PrimarySchool
                 throw new ArgumentException();
             }
             else
-            {
+            { 
                 Teacher teacher = new Teacher();
+                 
 
                 if (TeacherList.Exists(c => c.Name == name))
                 {
