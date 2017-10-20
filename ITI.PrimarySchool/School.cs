@@ -13,41 +13,36 @@ namespace ITI.PrimarySchool
         #endregion Champs
 
         #region Propriétés 
-        public string Name
-        {
-            get { return _name; }private set { _name = value; }
-        }
-        public List<Classroom> ClassroomList { get; set; }
+        public string Name { get { return _name; } internal set { _name = value; }}
 
-        public List<Teacher> TeacherList { get; set; }
+        internal List<Classroom> ClassroomList { get; set; }
 
-        //public School (string name) => Name = name;
+        internal List<Teacher> TeacherList { get; set; }
         #endregion Propriétés 
 
         #region Constructeurs
         public School(string name)
         {
             Name = (String.IsNullOrWhiteSpace(name)) ? throw new ArgumentException() : name;
-
             TeacherList = new List<Teacher>();
-
             ClassroomList = new List<Classroom>();
         }
         #endregion Constructeurs
 
         #region Méthodes    
-        public Teacher AddTeacher( string name )
+        public Teacher AddTeacher(string name)
         {
             if (String.IsNullOrWhiteSpace(name))
             {
                 throw new ArgumentException();
             }
-            else  
+            else
+            {
+                Teacher teacher = new Teacher(name)
+                {
+                    School = this
+                };
 
-            {   
-                Teacher teacher = new Teacher();
-                 
-                  
                 if (TeacherList.Exists(c => c.Name == name))
                 {
                     throw new ArgumentException();
@@ -58,45 +53,41 @@ namespace ITI.PrimarySchool
                 }
                 return teacher;
             }
-
         }
 
-        public Teacher FindTeacher( string name )
+        public Teacher FindTeacher(string name)
         {
-            Teacher teacher = new Teacher();
+            Teacher teacher = new Teacher(name);
 
             teacher = TeacherList.Find(t => t.Name == name);
 
             return teacher;
         }
 
-        public Classroom AddClassRoom( string name )
+        public Classroom AddClassRoom(string name)
         {
+            Classroom classRoom = new Classroom(name);
+
             if (String.IsNullOrWhiteSpace(name))
+            {
+                throw new ArgumentException();
+            }
+
+            classRoom.School = this;
+            if (ClassroomList.Exists(c => c.Name == name))
             {
                 throw new ArgumentException();
             }
             else
             {
-                Classroom classRoom = new Classroom
-                {
-                    Name = name         
-                };
-                if (ClassroomList.Exists(c => c.Name == name))
-                {
-                    throw new ArgumentException();
-                }
-                else
-                {
-                    ClassroomList.Add(classRoom);
-                }
+                ClassroomList.Add(classRoom);
                 return classRoom;
             }
         }
 
-        public Classroom FindClassRoom( string name )
+        public Classroom FindClassRoom(string name)
         {
-            Classroom classroom = new Classroom();
+            Classroom classroom = new Classroom(name);
             classroom = ClassroomList.Find(c => c.Name == name);
             return classroom;
         }

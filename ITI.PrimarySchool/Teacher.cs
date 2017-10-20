@@ -8,23 +8,36 @@ namespace ITI.PrimarySchool
 {
     public class Teacher
     {
-        internal Teacher()
-        {
-        }
+        #region Propriétés
+        public string Name { get; internal set; }
 
-        public string Name { get { return Name; } }
+        public School School { get; internal set; }
 
-        public School School { get { return School; } }
-        
-        public Classroom Assignment
+        public Classroom Assignment { get; internal set; }
+
+        #endregion Propriétés
+
+        #region Constructeurs
+        internal Teacher(string name)
         {
-            get { return Assignment; }
+            Name = (String.IsNullOrWhiteSpace(name)) ? throw new ArgumentException() : name;
         }
+        #endregion Constructeurs
 
         #region Methods
-        public void AssignTo( Classroom c )
+        public void AssignTo(Classroom c)
         {
-            throw new ArgumentException();
+            if (c != null && !c.School.Equals(School))
+                throw new ArgumentException();
+            if (Assignment != null)
+                Assignment.Teacher = null;
+            if (c == null)
+            {
+                if (Assignment != null) Assignment = null;
+                return;
+            }
+            c.Teacher = this;
+            Assignment = c;
         }
         #endregion Methods
     }

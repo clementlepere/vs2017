@@ -13,7 +13,7 @@ namespace ITI.PrimarySchool
 
         private string _lastName;
 
-        private Classroom _classroom;
+        internal Classroom _classroom;
         #endregion Champs
 
         #region Propriétés
@@ -27,10 +27,7 @@ namespace ITI.PrimarySchool
             get { return _lastName; }
         }
 
-        public Classroom Classroom 
-        { 
-            get { return _classroom; } 
-        }
+        public Classroom Classroom { get { return _classroom; } internal set { _classroom = value; } }
         #endregion Propriétés 
 
         #region Constructeur 
@@ -42,15 +39,9 @@ namespace ITI.PrimarySchool
 
         internal Pupil(string firstName, string lastName)
         {
-            if (String.IsNullOrEmpty(firstName) || String.IsNullOrEmpty(lastName)
-                || firstName.Length > 2 || lastName.Length > 2) throw new ArgumentException();
-            else
-            {
-                _firstName = firstName;
-                _lastName = lastName;
-            }
+            _firstName = firstName;
+            _lastName = lastName;
         }
         #endregion Constructeur
-
     }
 }

@@ -14,8 +14,8 @@ namespace ITI.PrimarySchool.Tests
         [Test]
         public void t1_creating_named_schools()
         {
-            //Assert.Throws<ArgumentException>(() => new School(null));
-            //Assert.Throws<ArgumentException>(() => new School(String.Empty));
+            Assert.Throws<ArgumentException>(() => new School(null));
+            Assert.Throws<ArgumentException>(() => new School(String.Empty));
 
             {
                 School s = new School( "Evariste Galois" );
@@ -34,8 +34,8 @@ namespace ITI.PrimarySchool.Tests
         {
             School s = new School( "Evariste Galois" );
 
-            //Assert.Throws<ArgumentException>(() => s.AddClassRoom(null));
-            //Assert.Throws<ArgumentException>(() => s.AddClassRoom(String.Empty));
+            Assert.Throws<ArgumentException>(() => s.AddClassRoom(null));
+            Assert.Throws<ArgumentException>(() => s.AddClassRoom(String.Empty));
 
             Classroom c1 = s.AddClassRoom( "CE1" );
             Assert.That( c1.School, Is.SameAs( s ) );
@@ -57,12 +57,12 @@ namespace ITI.PrimarySchool.Tests
 
             Assert.Throws<ArgumentException>( () => s.AddTeacher( null ) );
             Assert.Throws<ArgumentException>( () => s.AddTeacher( String.Empty ) );
-
+            
             Teacher c1 = s.AddTeacher( "Jean-Paul" );
             Assert.That( c1.School, Is.SameAs( s ) );
             Assert.That( c1.Name, Is.EqualTo( "Jean-Paul" ) );
             Assert.Throws<ArgumentException>( () => s.AddTeacher( "Jean-Paul" ) );
-
+           
             Teacher c2 = s.AddTeacher( "Albert" );
             Assert.That( c2.School, Is.SameAs( s ) );
             Assert.That( c2.Name, Is.EqualTo( "Albert" ) );

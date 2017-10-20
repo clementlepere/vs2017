@@ -8,52 +8,58 @@ namespace ITI.PrimarySchool
 {
     public class Classroom
     {
-         #region Champs
+        #region Champs
         private string _name;
-         #endregion Champs
+        private Teacher _teacher;
+        #endregion Champs
 
         #region Propriétés
-        public List<Pupil> PupilList { get; set; }
+        private List<Pupil> PupilList { get; set; }
 
-        public School School { get; set; }
+        public School School { get; internal set; }
 
         public string Name
         {
             get { return _name; }
-            set {_name = value;}
+            set
+            {
+                if (School != null && School.ClassroomList.Exists(c => (c.Name == value) && ( Name != value)))
+                    throw new ArgumentException();
+                _name = value;
+            }
         }
 
-        public Teacher Teacher
-        {
-            get { return Teacher; }
-        }
+        public Teacher Teacher { get { return _teacher; } internal set { _teacher = value; } }
         #endregion Propriétés 
 
         #region Constructeurs
-        public Classroom(string name)
+        internal Classroom(string name)
         {
             Name = (String.IsNullOrWhiteSpace(name)) ? throw new ArgumentException() : name;
             PupilList = new List<Pupil>();
-            School = new School(name);
         }
 
-        internal Classroom()
-        {
-        }
         #endregion Constructeurs
 
         #region Méthodes
-        public Pupil AddPupil( string firstName, string lastName )
+        public Pupil AddPupil(string firstName, string lastName)
         {
-            Pupil pupil = new Pupil(firstName, lastName);           
-            PupilList.Add(pupil);
-            return pupil;
+            if (String.IsNullOrEmpty(firstName) || String.IsNullOrEmpty(lastName)
+                || firstName.Length < 2 || lastName.Length < 2
+                || PupilList.Exists(c => (c.FirstName == firstName) && (c.LastName == lastName))) throw new ArgumentException();
+            else
+            {
+                Pupil pupil = new Pupil(firstName, lastName);
+                pupil.Classroom = this;
+                PupilList.Add(pupil);
+                return pupil;
+            }
         }
 
-        public Pupil FindPupil( string firstName, string lastName )
+        public Pupil FindPupil(string firstName, string lastName)
         {
             Pupil pupil = new Pupil();
-            pupil = PupilList.Find(p =>( p.FirstName == firstName) && (p.LastName == lastName));
+            pupil = PupilList.Find(p => (p.FirstName == firstName) && (p.LastName == lastName));
             return pupil;
         }
         #endregion Méthodes
